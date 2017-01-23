@@ -115,9 +115,14 @@
 
 .edit, .share, .delete {
   font-family : Myriad Pro;
-  font-size : 20px;
+  font-size : 15px;
   color : #231F20;
   color : rgb(35, 31, 32);
+}
+
+.edit:focus, .share:focus, .delete:focus {
+  outline: none;
+  background-color: white;
 }
 
 .editShareDelete {

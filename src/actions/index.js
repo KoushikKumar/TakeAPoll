@@ -1,7 +1,19 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-import { VOTING_APP_SERVER__URL, GET_ALL_POLLS_URI, GET_USER_RELATED_POLLS_URI, GET_IP_ADDRESS } from './uris';
-import { AUTH_USER, UNAUTH_USER, POLLS_DATA, SUBMIT_POLL, SUBMIT_POLL_AUTHORIZED_USER, IP_ADDRESS, IP_ADDRESS_NULL, USER_ID } from './types';
+import { VOTING_APP_SERVER__URL, 
+		 GET_ALL_POLLS_URI, 
+		 GET_USER_RELATED_POLLS_URI, 
+		 GET_IP_ADDRESS, 
+		 DELETE_POLL_URI } from './uris';
+import { AUTH_USER, 
+		 UNAUTH_USER, 
+		 POLLS_DATA, 
+		 SUBMIT_POLL, 
+		 SUBMIT_POLL_AUTHORIZED_USER, 
+		 IP_ADDRESS, 
+		 IP_ADDRESS_NULL, 
+		 USER_ID, 
+		 DELETE_POLL } from './types';
 import { TOKEN_KEY } from './constants';
 
 export function signInUser() {
@@ -94,4 +106,18 @@ export function getUserId() {
 		const userId = JSON.parse(localStorage.getItem(TOKEN_KEY))["user_id"];
 		dispatch({ type:USER_ID, payload:userId });
 	}
+}
+
+export function deletePoll(pollId) {
+	// TODO :: Should be like below 
+	// return function(dispatch) {
+	// 	axios.get(DELETE_POLL_URI) //TODO replace URI with actual backend URI
+	// 		.then(response => {
+	// 			dispatch({ type:DELETE_POLL, payload:pollId});
+	// 		})
+	// 		.catch(() => {
+	// 			//TODO
+	// 		})
+	// }
+	return { type:DELETE_POLL, payload:pollId} ;
 }

@@ -6,3 +6,4 @@ export const SUBMIT_POLL_AUTHORIZED_USER = "submit_poll_authorized_user";
 export const IP_ADDRESS = "ip_address";
 export const IP_ADDRESS_NULL = "ip_address_null";
 export const USER_ID = "user_id";
+export const DELETE_POLL = "delete_poll";

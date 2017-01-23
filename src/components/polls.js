@@ -5,7 +5,8 @@ import { getAllPolls,
 		 submitPollByAuthorizedUser,
 		 getIpAddress, 
 		 getUserRelatedPolls,
-		 getUserId } from '../actions';
+		 getUserId,
+		 deletePoll } from '../actions';
 
 class Polls extends Component {
 
@@ -118,12 +119,16 @@ class Polls extends Component {
 		if(router.isActive('/mypolls')) {
 			return (
 				<div id={"ellipse_" + poll._id} className="panel-collapse collapse editShareDelete">
-					<span className="edit">Edit</span>
-					<span className="share">Share</span>
-					<span className="delete">Delete</span>
+					<button className="edit btn btn-default">Edit</button>
+					<button className="share btn btn-default">Share</button>
+					<button onClick={() => this.deletePoll(poll)} className="delete btn btn-default">Delete</button>
 				</div>
 			);
 		}
+	}
+
+	deletePoll(poll) {
+		this.props.deletePoll(poll._id);
 	}
 
 	loadOptions(poll, selectedOption, isPollSelected, submittedOption) {
@@ -245,4 +250,5 @@ export default connect(mapStateToProps, {getAllPolls,
 										 submitPollByAuthorizedUser, 
 										 getIpAddress, 
 										 getUserRelatedPolls, 
-										 getUserId})(Polls);
+										 getUserId,
+										 deletePoll })(Polls);

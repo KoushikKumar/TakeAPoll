@@ -1,4 +1,4 @@
-import { POLLS_DATA, SUBMIT_POLL, SUBMIT_POLL_AUTHORIZED_USER } from '../actions/types';
+import { POLLS_DATA, SUBMIT_POLL, SUBMIT_POLL_AUTHORIZED_USER, DELETE_POLL } from '../actions/types';
 
 export default function(state={}, action) {
 	switch(action.type) {
@@ -36,6 +36,11 @@ export default function(state={}, action) {
 				return poll;
 			});
 			return {...state, pollsData:pollsDataAuth};
+		case DELETE_POLL:
+			const updatedPollsData = state.pollsData.filter((poll) => {
+				return poll._id !== action.payload;
+			});
+			return {...state, pollsData:updatedPollsData};
 	}
 
 	return state;
