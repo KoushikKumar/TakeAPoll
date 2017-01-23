@@ -1,0 +1,97 @@
+import axios from 'axios';
+import { browserHistory } from 'react-router';
+import { VOTING_APP_SERVER__URL, GET_ALL_POLLS_URI, GET_USER_RELATED_POLLS_URI, GET_IP_ADDRESS } from './uris';
+import { AUTH_USER, UNAUTH_USER, POLLS_DATA, SUBMIT_POLL, SUBMIT_POLL_AUTHORIZED_USER, IP_ADDRESS, IP_ADDRESS_NULL, USER_ID } from './types';
+import { TOKEN_KEY } from './constants';
+
+export function signInUser() {
+	return function(dispatch) {
+		window.open(`${VOTING_APP_SERVER__URL}/generate-token`,"_blank", 'width=600,height=600');
+		axios.get(`${VOTING_APP_SERVER__URL}/get-oauth-token`)
+			.then(response => {
+				dispatch({ type:AUTH_USER });
+				localStorage.setItem(TOKEN_KEY,JSON.stringify(response.data));
+				dispatch({ type:IP_ADDRESS_NULL });
+				browserHistory.push('/mypolls');
+			})
+			.catch(() => {
+				//TODO
+			});
+	}
+}
+
+export function signOutUser() {
+	return function(dispatch) {
+		localStorage.removeItem(TOKEN_KEY);
+		browserHistory.push('/');
+		dispatch({type: UNAUTH_USER});
+		dispatch({ type:USER_ID, payload:null });
+	}
+}
+
+export function getAllPolls() {
+	return function(dispatch) {
+		axios.get(GET_ALL_POLLS_URI) //TODO replace URI with actual backend URI
+			.then(response => {
+				dispatch({ type:POLLS_DATA, payload:response.data});
+			})
+			.catch(() => {
+				//TODO
+			})
+	}
+} 
+
+export function getUserRelatedPolls() {
+	return function(dispatch) {
+		axios.get(GET_USER_RELATED_POLLS_URI) //TODO replace URI with actual backend URI
+			.then(response => {
+				dispatch({ type:POLLS_DATA, payload:response.data});
+			})
+			.catch(() => {
+				//TODO
+			})
+	}
+}
+
+export function submitPollByUnauthorizedUser(poll, selectedOption, ipAddress) {
+	// TODO : Send the submitted poll info to backend and if successfully updated in db then reflect the proper results in UI
+	return {
+		type : SUBMIT_POLL,
+		payload : {
+			poll, 
+			selectedOption,
+			ipAddress
+		}
+	}
+}
+
+export function submitPollByAuthorizedUser(poll, selectedOption, userId) {
+	// TODO : Send the submitted poll info to backend and if successfully updated in db then reflect the proper results in UI
+	return {
+		type : SUBMIT_POLL_AUTHORIZED_USER,
+		payload : {
+			poll,
+			selectedOption,
+			userId
+		}
+	}
+}
+
+export function getIpAddress() {
+	return function(dispatch) {
+		axios.get(GET_IP_ADDRESS) //TODO replace URI with actual backend URI
+			.then(response => {
+				dispatch({ type:IP_ADDRESS, payload: response.data })
+			})
+			.catch(() => {
+				//TODO
+			})
+	}
+}
+
+export function getUserId() {
+	return function(dispatch) {
+		const userId = JSON.parse(localStorage.getItem(TOKEN_KEY))["user_id"];
+		dispatch({ type:USER_ID, payload:userId });
+	}
+}
