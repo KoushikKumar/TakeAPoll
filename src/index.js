@@ -42,6 +42,7 @@ function renderDOM() {
 	    	<Route path="/" component={App}></Route>
 	    	<Route path="/mypolls" component={requireAuth(App)}></Route>
 	    	<Route path="/create-poll" component={requireAuth(CreatePoll)}></Route>
+	    	<Route path="/poll/:pollId" component={App}></Route>
 	    </Router>
 	  </Provider>
 	, document.querySelector('.app'));

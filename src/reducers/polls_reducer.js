@@ -1,8 +1,8 @@
-import { POLLS_DATA, SUBMIT_POLL, SUBMIT_POLL_AUTHORIZED_USER, DELETE_POLL } from '../actions/types';
+import { POLLS_DATA, SUBMIT_POLL, SUBMIT_POLL_AUTHORIZED_USER, DELETE_POLL, POLL_DATA_BY_POLL_ID } from '../actions/types';
 
 export default function(state={}, action) {
 	switch(action.type) {
-		case POLLS_DATA : 
+		case POLLS_DATA :
 			return {...state, pollsData:action.payload};
 		case SUBMIT_POLL :
 			const submittedPollIdUnAuth = action.payload.poll._id;
@@ -41,6 +41,9 @@ export default function(state={}, action) {
 				return poll._id !== action.payload;
 			});
 			return {...state, pollsData:updatedPollsData};
+
+		case POLL_DATA_BY_POLL_ID:
+			return {...state, pollsData:[action.payload]};
 	}
 
 	return state;

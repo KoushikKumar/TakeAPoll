@@ -6,7 +6,9 @@ import { getAllPolls,
 		 getIpAddress, 
 		 getUserRelatedPolls,
 		 getUserId,
-		 deletePoll } from '../actions';
+		 deletePoll,
+		 getPollDataByPollId } from '../actions';
+import { VOTING_APP_CLIENT_URL } from '../actions/uris';
 
 class Polls extends Component {
 
@@ -23,9 +25,11 @@ class Polls extends Component {
 
 	componentWillMount() {
 		const { router } = this.context;
-
+		const { pollId } = this.props;
 		if(router.isActive('/mypolls')) {
 			this.props.getUserRelatedPolls();
+		} else if(router.isActive('/poll/' + pollId)){
+			this.props.getPollDataByPollId(pollId);
 		} else {
 			this.props.getAllPolls();
 		}
@@ -35,13 +39,6 @@ class Polls extends Component {
 		} else {
 			this.props.getIpAddress();
 		}	
-	}
-
-	componentWillUpdate(nextProps) {
-		if(!nextProps.IS_AUTHORIZED) {
-			this.props.getIpAddress();
-			this.props.getAllPolls();
-		}
 	}
 
 	loadPollData() {
@@ -120,7 +117,7 @@ class Polls extends Component {
 			return (
 				<div id={"ellipse_" + poll._id} className="panel-collapse collapse editShareDelete">
 					<button className="edit btn btn-default">Edit</button>
-					<button className="share btn btn-default">Share</button>
+					<a href= { "http://twitter.com/home/?status="+ VOTING_APP_CLIENT_URL +"/"+ poll._id } target="_blank"><button className="share btn btn-default">Share</button></a>
 					<button onClick={() => this.deletePoll(poll)} className="delete btn btn-default">Delete</button>
 				</div>
 			);
@@ -251,4 +248,5 @@ export default connect(mapStateToProps, {getAllPolls,
 										 getIpAddress, 
 										 getUserRelatedPolls, 
 										 getUserId,
-										 deletePoll })(Polls);
+										 deletePoll,
+										 getPollDataByPollId })(Polls);

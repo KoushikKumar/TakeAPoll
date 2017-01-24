@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {signInUser ,
-		signOutUser } from '../actions';
+		signOutUser,
+		getIpAddress,
+		getAllPolls } from '../actions';
 import { Link } from 'react-router';
 
 
@@ -31,6 +33,8 @@ class Header extends Component {
 
 	handleLogout() {
 		this.props.signOutUser();
+		this.props.getIpAddress();
+		this.props.getAllPolls();
 	}
 
 	render(){
@@ -48,4 +52,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, {signInUser, signOutUser})(Header);
+export default connect(mapStateToProps, {signInUser, signOutUser, getAllPolls, getIpAddress})(Header);

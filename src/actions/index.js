@@ -4,7 +4,8 @@ import { VOTING_APP_SERVER__URL,
 		 GET_ALL_POLLS_URI, 
 		 GET_USER_RELATED_POLLS_URI, 
 		 GET_IP_ADDRESS, 
-		 DELETE_POLL_URI } from './uris';
+		 DELETE_POLL_URI,
+		 GET_POLL_DATA_BY_POLL_ID } from './uris';
 import { AUTH_USER, 
 		 UNAUTH_USER, 
 		 POLLS_DATA, 
@@ -13,7 +14,8 @@ import { AUTH_USER,
 		 IP_ADDRESS, 
 		 IP_ADDRESS_NULL, 
 		 USER_ID, 
-		 DELETE_POLL } from './types';
+		 DELETE_POLL,
+		 POLL_DATA_BY_POLL_ID } from './types';
 import { TOKEN_KEY } from './constants';
 
 export function signInUser() {
@@ -111,7 +113,7 @@ export function getUserId() {
 export function deletePoll(pollId) {
 	// TODO :: Should be like below 
 	// return function(dispatch) {
-	// 	axios.get(DELETE_POLL_URI) //TODO replace URI with actual backend URI
+	// 	axios.delete(DELETE_POLL_URI) //TODO replace URI with actual backend URI
 	// 		.then(response => {
 	// 			dispatch({ type:DELETE_POLL, payload:pollId});
 	// 		})
@@ -120,4 +122,16 @@ export function deletePoll(pollId) {
 	// 		})
 	// }
 	return { type:DELETE_POLL, payload:pollId} ;
+}
+
+export function getPollDataByPollId(pollId) {
+	return function(dispatch) {
+		axios.get(GET_POLL_DATA_BY_POLL_ID) //TODO : replace URI with actual backend URI
+		.then(response => {
+			dispatch({ type:POLL_DATA_BY_POLL_ID , payload: response.data })
+		})
+		.catch(() => {
+				//TODO
+		})
+	}
 }
