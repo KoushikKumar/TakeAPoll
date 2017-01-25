@@ -7,7 +7,7 @@ export default class CreatePoll extends Component {
     return (
     	<div>
     	  <Header/>
-    	  Create Poll
+    	  <div>CreatePoll</div>
       	</div>
     );
   }
