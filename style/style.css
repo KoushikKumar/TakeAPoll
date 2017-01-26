@@ -43,7 +43,7 @@
   color: #231F20;
   color: #231f20;
   text-align: center;
-  margin-top: 5px; }
+  margin-top: 25px; }
 
   .radioLabel{
     display: inline-block;
@@ -139,4 +139,16 @@
 .delete {
   float: right;
   margin-right: 30px;
+}
+
+.create-form {
+    width: 600px;
+    margin: 15px auto;
+}
+
+.create-options {
+    width: 500px;
+    margin-top: 15px;
+    float: left;
+    
 }
