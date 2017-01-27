@@ -6,19 +6,27 @@ export default class CreatePoll extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { "options": [{"option":""}, {"option":""}], "question":"" };
+		this.state = { "options": [{"option":""}, {"option":""}], "question":"", "question-help-text":"" };
 	}
 
 	renderQuestion() {
 		return(
-			<div className="input-group">
-	            <span className="input-group-addon">Q</span>
-	            <input value={this.state.question} onChange={(event) => this.setQuestionState(event)} type="text" className="form-control" placeholder="Enter the poll"/>
-	            <div className="input-group-btn">
-	              <button className="btn btn-default">
-	                Create
-	              </button>
-	            </div>
+			<div>
+				<div className="input-group">
+		            <span className="input-group-addon">Q</span>
+		            <input value={this.state.question} 
+		            	   onChange={(event) => this.setQuestionState(event)} 
+		            	   type="text" 
+		            	   className="form-control create-question" 
+		            	   placeholder="Enter the poll"/>
+
+		            <div className="input-group-btn">
+		              <button onClick={() => this.validatePoll()} className="btn btn-default">
+		                Create
+		              </button>
+		            </div>
+		        </div>
+		        {this.renderQuestionHelpBlock()}
 	        </div>
 		);
 	}
@@ -46,23 +54,12 @@ export default class CreatePoll extends Component {
 		});
 	}
 
-	setQuestionState(event) {
-		this.setState({"question":event.target.value});
-	}
-
-	setOptionState(event,optionCounter) {
-		let {options} = this.state;
-		options[optionCounter-1]["option"] = event.target.value;
-		this.setState({options});
-	}
-
-	
-
 	renderOptionPlusButton(optionsLength, optionCounter) {
 		if (optionsLength === 2 && optionCounter > 1 || optionsLength > 2) {
 			return (
 				<div className="input-group-btn">
-	              <button onClick={() => this.handleOptionPlusButton(optionCounter)} className="btn btn-default">
+	              <button onClick={() => this.handleOptionPlusButton(optionCounter)} 
+	                      className="btn btn-default select-option-plus-button">
 	                <i className="fa fa-plus" aria-hidden="true"></i>
 	              </button>
 	            </div>
@@ -74,12 +71,32 @@ export default class CreatePoll extends Component {
 		if(optionsLength > 2) {
 			return(
 				<div className="input-group-btn">
-	              <button onClick={() => this.handleOptionMinusButton(optionCounter)} className="btn btn-default">
+	              <button onClick={() => this.handleOptionMinusButton(optionCounter)} 
+	              		  className="btn btn-default select-option-minus-button">
 	                <i className="fa fa-minus" aria-hidden="true"></i>
 	              </button>
 	            </div>
 			);
 		}
+	}
+
+	renderQuestionHelpBlock() {
+		if(this.state["question-help-text"]){
+			return (
+				<span className="help-block">{this.state["question-help-text"]}</span>
+			);
+		}
+	}
+
+	setQuestionState(event) {
+		this.setState({"question":event.target.value});
+		this.validatePoll();
+	}
+
+	setOptionState(event,optionCounter) {
+		let {options} = this.state;
+		options[optionCounter-1]["option"] = event.target.value;
+		this.setState({options});
 	}
 
 	handleOptionPlusButton(optionCounter) {
@@ -92,6 +109,23 @@ export default class CreatePoll extends Component {
 		let { options } = this.state;
 		options.splice(optionCounter-1, 1);
 		this.setState({...this.state,options});
+	}
+
+	validatePoll() {
+		this.validateQuestion();
+		this.validateOptions();
+	}
+
+	validateQuestion() {
+		if(!this.state.question) {
+			this.setState({"question-help-text":"You need to fill the poll"})
+		} else {
+			this.setState({"question-help-text":""})	
+		}	
+	}
+
+	validateOptions() {
+		
 	}
 
   	render() {
