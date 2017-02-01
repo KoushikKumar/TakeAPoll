@@ -1,34 +1,60 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import Header from './header';
+import { createPoll } from '../actions';
 
-export default class CreatePoll extends Component {
+class CreatePoll extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { "options": [{"option":""}, {"option":""}], "question":"", "question-help-text":"" };
+		this.state = { "options": [{"option":""}, {"option":""}], "question":"", "isCreateButtonClicked":false };
 	}
 
 	renderQuestion() {
 		return(
 			<div>
-				<div className="input-group">
+				<div className="input-group create-input-group">
 		            <span className="input-group-addon">Q</span>
 		            <input value={this.state.question} 
 		            	   onChange={(event) => this.setQuestionState(event)} 
 		            	   type="text" 
 		            	   className="form-control create-question" 
 		            	   placeholder="Enter the poll"/>
-
-		            <div className="input-group-btn">
-		              <button onClick={() => this.validatePoll()} className="btn btn-default">
-		                Create
-		              </button>
-		            </div>
+		            {this.renderCreateOrCancelButton()}
+		            {this.renderSelectePollBackground()}
 		        </div>
-		        {this.renderQuestionHelpBlock()}
 	        </div>
 		);
+	}
+
+	renderCreateOrCancelButton() {
+		if(this.state.isCreateButtonClicked) {
+			return (
+				<div className="input-group-btn">
+	              <button onClick={() => this.handleCancelButton()} className="btn btn-default cancelButton">
+	                Cancel
+	              </button>
+	            </div>
+			);
+		} else {
+			return (
+				<div className="input-group-btn">
+	              <button onClick={() => this.handleCreateButton()} className="btn btn-default createButton">
+	                Create
+	              </button>
+	            </div>
+			);
+		}
+	}
+
+	renderSelectePollBackground() {
+		if(this.state.isCreateButtonClicked) {
+			return (
+				<div onClick={() => this.props.createPoll(this.state.question, this.state.options)} className="selectedPollBackground">
+	            	Click Here To Create
+	        	</div>
+			);
+		} 
 	}
 
 	renderOptions() {
@@ -80,17 +106,8 @@ export default class CreatePoll extends Component {
 		}
 	}
 
-	renderQuestionHelpBlock() {
-		if(this.state["question-help-text"]){
-			return (
-				<span className="help-block">{this.state["question-help-text"]}</span>
-			);
-		}
-	}
-
 	setQuestionState(event) {
 		this.setState({"question":event.target.value});
-		this.validatePoll();
 	}
 
 	setOptionState(event,optionCounter) {
@@ -111,21 +128,12 @@ export default class CreatePoll extends Component {
 		this.setState({...this.state,options});
 	}
 
-	validatePoll() {
-		this.validateQuestion();
-		this.validateOptions();
+	handleCreateButton() {
+		this.setState({"isCreateButtonClicked":true});
 	}
 
-	validateQuestion() {
-		if(!this.state.question) {
-			this.setState({"question-help-text":"You need to fill the poll"})
-		} else {
-			this.setState({"question-help-text":""})	
-		}	
-	}
-
-	validateOptions() {
-		
+	handleCancelButton() {
+		this.setState({"isCreateButtonClicked":false});
 	}
 
   	render() {
@@ -145,3 +153,5 @@ export default class CreatePoll extends Component {
 	    );
 	}
 }
+
+export default connect(null, {createPoll})(CreatePoll);

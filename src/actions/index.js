@@ -5,7 +5,8 @@ import { VOTING_APP_SERVER__URL,
 		 GET_USER_RELATED_POLLS_URI, 
 		 GET_IP_ADDRESS, 
 		 DELETE_POLL_URI,
-		 GET_POLL_DATA_BY_POLL_ID } from './uris';
+		 GET_POLL_DATA_BY_POLL_ID,
+		 CREATE_POLL_URI } from './uris';
 import { AUTH_USER, 
 		 UNAUTH_USER, 
 		 POLLS_DATA, 
@@ -15,7 +16,8 @@ import { AUTH_USER,
 		 IP_ADDRESS_NULL, 
 		 USER_ID, 
 		 DELETE_POLL,
-		 POLL_DATA_BY_POLL_ID } from './types';
+		 POLL_DATA_BY_POLL_ID,
+		 CREATE_POLL } from './types';
 import { TOKEN_KEY } from './constants';
 
 export function signInUser() {
@@ -134,4 +136,28 @@ export function getPollDataByPollId(pollId) {
 				//TODO
 		})
 	}
+}
+
+export function createPoll(question, options) {
+	// TODO :: Should be like below 
+	// let poll = {};
+	// poll.question = question;
+	// poll.options = options.map((opt) => {
+	// 	return {"option":opt.option, "votes":0};
+	// });
+	// poll.submittedIpAddressesAndOptions = {};
+	// poll.submittedUserIdsAndOptions = {};
+	// poll.createdBy = JSON.parse(localStorage.getItem(TOKEN_KEY))["user_id"];
+	// return function(dispatch) {
+	// 	axios.post(CREATE_POLL_URI, poll) //TODO replace URI with actual backend URI
+	// 	.then(response => {
+	// 		dispatch({ type:CREATE_POLL })
+			//redirect to another page
+	// 	})
+	// 	.catch(() => {
+	// 			//TODO
+	// 	})
+	// }
+	browserHistory.push('/mypolls');
+	return { type:CREATE_POLL };
 }

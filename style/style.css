@@ -45,22 +45,22 @@
   text-align: center;
   margin-top: 25px; }
 
-  .radioLabel{
-    display: inline-block;
-  }
+.radioLabel{
+  display: inline-block;
+}
 
-  .radioOption {
+.radioOption {
   width: 584px;
   height: 30px;
   border: 1px solid #30A4AA;
   position: relative;
   left: 19px;
   top: -23px;
-   }
+}
 
-  .radioSelectedOption {
-    border: 1px solid #38A84C;
-  }
+.radioSelectedOption {
+  border: 1px solid #38A84C;
+}
 
 .question {
   font-family: Nyala;
@@ -71,7 +71,7 @@
 .question:focus {
   text-decoration: none; }
 
-.optionBackground, .selectedOptionBackground {
+.optionBackground, .selectedOptionBackground, .selectedPollBackground {
   display: inline-block;
   height: 29px;
   background: #30A4AA;
@@ -80,6 +80,20 @@
 
 .selectedOptionBackground{
   background: #38A84C;
+}
+
+.selectedPollBackground {
+  background: #38A84C;
+  top: 0px;
+  left: 36px;
+  z-index: 2;
+  height: 34px;
+  width: 496px;
+  text-align: center;
+  padding-top: 5px;
+  cursor: pointer;
+  font-family: Khmer UI;
+  font-size: 16px;
 }
 
 .option {
@@ -92,7 +106,7 @@
   padding-top: 2px;
   position: absolute; }
 
-  .selectedOption {
+.selectedOption {
   padding-left: 210px;
   cursor: pointer;
 }
@@ -106,12 +120,12 @@
   padding-right: 20px;
   padding-top: 3px; }
 
-  .font-awesome-ellipse {
-    float: right;
-    margin-right: 5px;
-    margin-top: 4px;
-    cursor: pointer;
-  }
+.font-awesome-ellipse {
+  float: right;
+  margin-right: 5px;
+  margin-top: 4px;
+  cursor: pointer;
+}
 
 .edit, .share, .delete {
   font-family : Myriad Pro;
@@ -169,6 +183,10 @@
   background-color: white;
 }
 
-.help-block{
-  color: red;
+.create-input-group {
+  position: relative;
+}
+
+.createButton:focus, .cancelButton:focus {
+  outline: none;
 }
