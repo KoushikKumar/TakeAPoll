@@ -21,16 +21,9 @@ export default function(state={}, action) {
 			return {...state, pollsData:pollsDataUnAuth};
 		case SUBMIT_POLL_AUTHORIZED_USER:
 			const submittedPollIdAuth = action.payload.poll._id;
-			const submittedPollOptionAuth = action.payload.selectedOption;
-			const userId = action.payload.userId;
 			const pollsDataAuth = state.pollsData.map((poll) => {
 				if(poll._id === submittedPollIdAuth) {
-					poll.options.forEach((opt) => {
-						if(opt.option === submittedPollOptionAuth) {
-							opt.votes = opt.votes + 1;
-						}
-					});
-					poll.submittedUserIdsAndOptions[userId] = submittedPollOptionAuth;
+					poll = action.payload.poll;
 				} 
 				return poll;
 			});

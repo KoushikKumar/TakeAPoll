@@ -96,15 +96,25 @@ export function submitPollByUnauthorizedUser(poll, selectedOption, ipAddress) {
 }
 
 export function submitPollByAuthorizedUser(poll, selectedOption, userId) {
-	// TODO : Send the submitted poll info to backend and if successfully updated in db then reflect the proper results in UI
-	console.log(poll);
-	return {
-		type : SUBMIT_POLL_AUTHORIZED_USER,
-		payload : {
-			poll,
-			selectedOption,
-			userId
+	poll.options.forEach((opt) => {
+		if(opt.option === selectedOption) {
+			opt.votes = opt.votes + 1;
 		}
+	});
+	poll.submittedUserIdsAndOptions[userId] = selectedOption;
+	return function(dispatch) {
+		axios.post(UPDATE_POLL_URI, poll)
+			.then(response => {
+				dispatch({
+					type : SUBMIT_POLL_AUTHORIZED_USER,
+					payload : {
+						poll
+					}
+				});
+			})
+			.catch(() => {
+				//TODO
+			});
 	}
 }
 
