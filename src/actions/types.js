@@ -8,4 +8,5 @@ export const IP_ADDRESS_NULL = "ip_address_null";
 export const USER_ID = "user_id";
 export const DELETE_POLL = "delete_poll";
 export const CREATE_POLL = "create_poll";
+export const UPDATE_POLL = "update_poll";
 export const POLL_DATA_BY_POLL_ID = "poll_data_by_poll_id";

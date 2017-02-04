@@ -1,16 +1,59 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from './header';
-import { createPoll } from '../actions';
+import { createPoll, getPollDataByPollId, editPoll } from '../actions';
 
 class CreatePoll extends Component {
 
+	static contextTypes = {
+		router: React.PropTypes.object
+	}
+
 	constructor(props) {
 		super(props);
-		this.state = { "options": [{"option":""}, {"option":""}], "question":"", "isCreateButtonClicked":false };
+		this.state = { "options": [{"option":""}, {"option":""}], 
+					   "question":"", 
+					   "isCreateButtonClicked":false, 
+					   "isEditable":false,
+					   "sumbitButtonText":"",
+					   "bodyHeader":"",
+					   "submitVerificationText":"" };
+	}
+
+	componentWillMount() {
+		const { router } = this.context;
+		const { pollId } = this.props.params;
+		if(router.isActive('/edit/poll/' + pollId)) {
+			this.setState({"isEditable":true});
+			this.props.getPollDataByPollId(pollId);
+		}
+		if(!this.state.isEditable){
+			this.setState({"sumbitButtonText":"Create", 
+						   "bodyHeader":"Create A Poll", 
+						   "submitVerificationText":"Click Here to Create"});
+		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if(this.state.isEditable){
+			const pollData = nextProps.pollData[0];
+			let options = [];
+			pollData.options.forEach((opt) => {
+				options.push(opt);
+			});
+			this.setState({"question":pollData.question,
+						   "options":options,
+						   "sumbitButtonText":"Edit", 
+						   "bodyHeader":"Edit A Poll",
+						   "submitVerificationText":"Click Here to Edit"});
+		} 
 	}
 
 	renderQuestion() {
+		let opts = {};
+		if(this.state.isEditable){
+			opts["readOnly"] = "readOnly";
+		}
 		return(
 			<div>
 				<div className="input-group create-input-group">
@@ -19,7 +62,7 @@ class CreatePoll extends Component {
 		            	   onChange={(event) => this.setQuestionState(event)} 
 		            	   type="text" 
 		            	   className="form-control create-question" 
-		            	   placeholder="Enter the poll"/>
+		            	   placeholder="Enter the poll" {...opts} />
 		            {this.renderCreateOrCancelButton()}
 		            {this.renderSelectePollBackground()}
 		        </div>
@@ -40,7 +83,7 @@ class CreatePoll extends Component {
 			return (
 				<div className="input-group-btn">
 	              <button onClick={() => this.handleCreateButton()} className="btn btn-default createButton">
-	                Create
+	                {this.state.sumbitButtonText}
 	              </button>
 	            </div>
 			);
@@ -50,20 +93,34 @@ class CreatePoll extends Component {
 	renderSelectePollBackground() {
 		if(this.state.isCreateButtonClicked) {
 			return (
-				<div onClick={() => this.props.createPoll(this.state.question, this.state.options)} className="selectedPollBackground">
-	            	Click Here To Create
+				<div onClick={() => this.updatePoll(this.state.question, this.state.options)} className="selectedPollBackground">
+	            	{this.state.submitVerificationText}
 	        	</div>
 			);
 		} 
+	}
+
+	updatePoll(question, options) {
+		if(this.state.isEditable) {
+			this.props.editPoll(question,options,this.props.pollData[0]);
+		} else {
+			this.props.createPoll(question,options);
+		}
 	}
 
 	renderOptions() {
 		let optionCounter = 0;
 		const options = this.state.options;
 		const optionsLength = options.length;
+		let opts = {};
 		return options.map((option) => {
 			optionCounter++;
 			let thatOptionCounter = optionCounter;
+			if(this.state.isEditable && this.props.pollData && thatOptionCounter <= this.props.pollData[0]["options"].length){
+				opts["readOnly"] = "readOnly";
+			} else {
+				opts["readOnly"] = null;
+			}
 			return (
 				<div key={"Option "+ optionCounter}>
 					<div className="input-group create-options">
@@ -71,7 +128,7 @@ class CreatePoll extends Component {
 			            	   onChange={(event) => this.setOptionState(event,thatOptionCounter)}
 			            	   type="text" 
 			            	   className="form-control" 
-			            	   placeholder={"Option "+ optionCounter }/>
+			            	   placeholder={"Option "+ optionCounter} {...opts} />
 			            {this.renderOptionPlusButton(optionsLength, optionCounter)}
 			            {this.renderOptionMinusButton(optionsLength, optionCounter)}
 			        </div>
@@ -81,7 +138,19 @@ class CreatePoll extends Component {
 	}
 
 	renderOptionPlusButton(optionsLength, optionCounter) {
-		if (optionsLength === 2 && optionCounter > 1 || optionsLength > 2) {
+
+		if(this.state.isEditable ) {
+			if(this.props.pollData && optionCounter >= this.props.pollData[0]["options"].length) {
+				return (
+					<div className="input-group-btn">
+		              <button onClick={() => this.handleOptionPlusButton(optionCounter)} 
+		                      className="btn btn-default select-option-plus-button">
+		                <i className="fa fa-plus" aria-hidden="true"></i>
+		              </button>
+		            </div>
+				);
+			}
+		} else if(optionsLength === 2 && optionCounter > 1 || optionsLength > 2) {
 			return (
 				<div className="input-group-btn">
 	              <button onClick={() => this.handleOptionPlusButton(optionCounter)} 
@@ -90,11 +159,22 @@ class CreatePoll extends Component {
 	              </button>
 	            </div>
 			);
-		} 
+		}
 	}
 
 	renderOptionMinusButton(optionsLength, optionCounter) {
-		if(optionsLength > 2) {
+		if(this.state.isEditable ) {
+			if(this.props.pollData && optionCounter > this.props.pollData[0]["options"].length) {
+				return(
+					<div className="input-group-btn">
+		              <button onClick={() => this.handleOptionMinusButton(optionCounter)} 
+		              		  className="btn btn-default select-option-minus-button">
+		                <i className="fa fa-minus" aria-hidden="true"></i>
+		              </button>
+		            </div>
+				);
+			}
+		} else if(optionsLength > 2) {
 			return(
 				<div className="input-group-btn">
 	              <button onClick={() => this.handleOptionMinusButton(optionCounter)} 
@@ -142,7 +222,7 @@ class CreatePoll extends Component {
 	    	  	<Header/>
 	    	  	<div>
 		    	  	<p className="bodyHeader">
-						Create A Poll
+						{this.state.bodyHeader}
 					</p>
 					<div className="create-form">
 				        { this.renderQuestion() }
@@ -154,4 +234,10 @@ class CreatePoll extends Component {
 	}
 }
 
-export default connect(null, {createPoll})(CreatePoll);
+function mapStateToProps(state) {
+	return {
+		pollData : state.polls.pollsData
+	}
+}
+
+export default connect(mapStateToProps, {createPoll, getPollDataByPollId, editPoll})(CreatePoll);

@@ -6,7 +6,8 @@ import { VOTING_APP_SERVER__URL,
 		 GET_IP_ADDRESS, 
 		 DELETE_POLL_URI,
 		 GET_POLL_DATA_BY_POLL_ID,
-		 CREATE_POLL_URI } from './uris';
+		 CREATE_POLL_URI,
+		 UPDATE_POLL_URI } from './uris';
 import { AUTH_USER, 
 		 UNAUTH_USER, 
 		 POLLS_DATA, 
@@ -17,7 +18,8 @@ import { AUTH_USER,
 		 USER_ID, 
 		 DELETE_POLL,
 		 POLL_DATA_BY_POLL_ID,
-		 CREATE_POLL } from './types';
+		 CREATE_POLL,
+		 UPDATE_POLL } from './types';
 import { TOKEN_KEY } from './constants';
 
 export function signInUser() {
@@ -160,4 +162,27 @@ export function createPoll(question, options) {
 	// }
 	browserHistory.push('/mypolls');
 	return { type:CREATE_POLL };
+}
+
+export function editPoll(question, options, poll) {
+	// TODO :: Should be like below 
+	// poll.options = options.map((opt) => {
+	// 	if(opt.votes) {
+	// 		return opt;
+	// 	} else {
+	// 		return {"option":opt.option, "votes":0};
+	// 	}
+	// });
+	// return function(dispatch) {
+	// 	axios.put(UPDATE_POLL_URI, poll) //TODO replace URI with actual backend URI
+	// 	.then(response => {
+	// 		dispatch({ type:UPDATE_POLL })
+	// 		redirect to another page
+	// 	})
+	// 	.catch(() => {
+	// 			//TODO
+	// 	})
+	// }
+	browserHistory.push('/mypolls');
+	return { type:UPDATE_POLL };
 }

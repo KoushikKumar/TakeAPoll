@@ -5,4 +5,5 @@ export const GET_USER_RELATED_POLLS_URI = "https://api.myjson.com/bins/ecqjz";
 export const GET_IP_ADDRESS = "https://api.myjson.com/bins/p5v1j";
 export const DELETE_POLL_URI = "delete poll uri";
 export const CREATE_POLL_URI = "create poll uri";
+export const UPDATE_POLL_URI = "update poll uri";
 export const GET_POLL_DATA_BY_POLL_ID = "https://api.myjson.com/bins/bwged";

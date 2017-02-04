@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import requireAuth from './components/hoc/require_authentication';
 import App from './components/app';
+import PollById from './components/poll_by_id';
 import CreatePoll from './components/create_poll';
 import reducers from './reducers';
 import { TOKEN_KEY } from './actions/constants';
@@ -42,7 +43,8 @@ function renderDOM() {
 	    	<Route path="/" component={App}></Route>
 	    	<Route path="/mypolls" component={requireAuth(App)}></Route>
 	    	<Route path="/create-poll" component={requireAuth(CreatePoll)}></Route>
-	    	<Route path="/poll/:pollId" component={App}></Route>
+	    	<Route path="/poll/:pollId" component={PollById}></Route>
+	    	<Route path="/edit/poll/:pollId" component={requireAuth(CreatePoll)}></Route>
 	    </Router>
 	  </Provider>
 	, document.querySelector('.app'));

@@ -9,6 +9,7 @@ import { getAllPolls,
 		 deletePoll,
 		 getPollDataByPollId } from '../actions';
 import { VOTING_APP_CLIENT_URL } from '../actions/uris';
+import { browserHistory } from 'react-router';
 
 class Polls extends Component {
 
@@ -116,7 +117,7 @@ class Polls extends Component {
 		if(router.isActive('/mypolls')) {
 			return (
 				<div id={"ellipse_" + poll._id} className="panel-collapse collapse editShareDelete">
-					<button className="edit btn btn-default">Edit</button>
+					<button onClick={() => this.editPoll(poll._id)} className="edit btn btn-default">Edit</button>
 					<a href= { "http://twitter.com/home/?status="+ VOTING_APP_CLIENT_URL +"/"+ poll._id } target="_blank"><button className="share btn btn-default">Share</button></a>
 					<button onClick={() => this.deletePoll(poll)} className="delete btn btn-default">Delete</button>
 				</div>
@@ -126,6 +127,10 @@ class Polls extends Component {
 
 	deletePoll(poll) {
 		this.props.deletePoll(poll._id);
+	}
+
+	editPoll(pollId) {
+		browserHistory.push('/edit/poll/' + pollId);
 	}
 
 	loadOptions(poll, selectedOption, isPollSelected, submittedOption) {

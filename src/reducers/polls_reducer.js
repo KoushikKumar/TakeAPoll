@@ -1,4 +1,10 @@
-import { POLLS_DATA, SUBMIT_POLL, SUBMIT_POLL_AUTHORIZED_USER, DELETE_POLL, POLL_DATA_BY_POLL_ID, CREATE_POLL } from '../actions/types';
+import { POLLS_DATA, 
+		 SUBMIT_POLL, 
+		 SUBMIT_POLL_AUTHORIZED_USER, 
+		 DELETE_POLL, 
+		 POLL_DATA_BY_POLL_ID, 
+		 CREATE_POLL,
+		 UPDATE_POLL } from '../actions/types';
 
 export default function(state={}, action) {
 	switch(action.type) {
@@ -47,6 +53,8 @@ export default function(state={}, action) {
 
 		case CREATE_POLL:
 			return state; //TODO :: see whether you need to add created poll info to the state
+		case UPDATE_POLL:
+			return state; //TODO :: see whether you need to add edited poll info to the state
 	}
 
 	return state;

@@ -5,11 +5,10 @@ import Polls from './polls';
 
 export default class App extends Component {
   render() {
-  	const { pollId } = this.props.params;
     return (
     	<div>
     	  <Header/>
-    	  <Polls pollId={pollId}/>
+    	  <Polls/>
       	</div>
     );
   }
