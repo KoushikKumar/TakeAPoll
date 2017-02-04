@@ -141,27 +141,24 @@ export function getPollDataByPollId(pollId) {
 }
 
 export function createPoll(question, options) {
-	// TODO :: Should be like below 
-	// let poll = {};
-	// poll.question = question;
-	// poll.options = options.map((opt) => {
-	// 	return {"option":opt.option, "votes":0};
-	// });
-	// poll.submittedIpAddressesAndOptions = {};
-	// poll.submittedUserIdsAndOptions = {};
-	// poll.createdBy = JSON.parse(localStorage.getItem(TOKEN_KEY))["user_id"];
-	// return function(dispatch) {
-	// 	axios.post(CREATE_POLL_URI, poll) //TODO replace URI with actual backend URI
-	// 	.then(response => {
-	// 		dispatch({ type:CREATE_POLL })
-			//redirect to another page
-	// 	})
-	// 	.catch(() => {
-	// 			//TODO
-	// 	})
-	// }
-	browserHistory.push('/mypolls');
-	return { type:CREATE_POLL };
+	let poll = {};
+	poll.question = question;
+	poll.options = options.map((opt) => {
+		return {"option":opt.option, "votes":0};
+	});
+	poll.submittedIpAddressesAndOptions = {};
+	poll.submittedUserIdsAndOptions = {};
+	poll.createdBy = JSON.parse(localStorage.getItem(TOKEN_KEY))["user_id"];
+	return function(dispatch) {
+		axios.post(CREATE_POLL_URI, poll)
+			.then(response => {
+				dispatch({ type:CREATE_POLL })
+				browserHistory.push('/mypolls');
+			})
+			.catch(() => {
+					//TODO
+			})
+	}
 }
 
 export function editPoll(question, options, poll) {
