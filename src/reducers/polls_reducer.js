@@ -12,16 +12,9 @@ export default function(state={}, action) {
 			return {...state, pollsData:action.payload};
 		case SUBMIT_POLL :
 			const submittedPollIdUnAuth = action.payload.poll._id;
-			const submittedPollOptionUnAuth = action.payload.selectedOption;
-			const ipAddress = action.payload.ipAddress;
 			const pollsDataUnAuth = state.pollsData.map((poll) => {
 				if(poll._id === submittedPollIdUnAuth) {
-					poll.options.forEach((opt) => {
-						if(opt.option === submittedPollOptionUnAuth) {
-							opt.votes = opt.votes + 1;
-						}
-					});
-					poll.submittedIpAddressesAndOptions[ipAddress] = submittedPollOptionUnAuth;
+					poll = action.payload.poll;
 				} 
 				return poll;
 			});
