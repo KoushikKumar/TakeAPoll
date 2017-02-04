@@ -49,7 +49,7 @@ export function signOutUser() {
 
 export function getAllPolls() {
 	return function(dispatch) {
-		axios.get(GET_ALL_POLLS_URI) //TODO replace URI with actual backend URI
+		axios.get(GET_ALL_POLLS_URI) 
 			.then(response => {
 				dispatch({ type:POLLS_DATA, payload:response.data});
 			})
