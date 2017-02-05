@@ -152,7 +152,7 @@ export function deletePoll(pollId) {
 
 export function getPollDataByPollId(pollId) {
 	return function(dispatch) {
-		axios.get(GET_POLL_DATA_BY_POLL_ID) //TODO : replace URI with actual backend URI
+		axios.get(GET_POLL_DATA_BY_POLL_ID + pollId)
 		.then(response => {
 			dispatch({ type:POLL_DATA_BY_POLL_ID , payload: response.data })
 		})
@@ -184,24 +184,21 @@ export function createPoll(question, options) {
 }
 
 export function editPoll(question, options, poll) {
-	// TODO :: Should be like below 
-	// poll.options = options.map((opt) => {
-	// 	if(opt.votes) {
-	// 		return opt;
-	// 	} else {
-	// 		return {"option":opt.option, "votes":0};
-	// 	}
-	// });
-	// return function(dispatch) {
-	// 	axios.put(UPDATE_POLL_URI, poll) //TODO replace URI with actual backend URI
-	// 	.then(response => {
-	// 		dispatch({ type:UPDATE_POLL })
-	// 		redirect to another page
-	// 	})
-	// 	.catch(() => {
-	// 			//TODO
-	// 	})
-	// }
-	browserHistory.push('/mypolls');
-	return { type:UPDATE_POLL };
+	poll.options = options.map((opt) => {
+		if(opt.votes) {
+			return opt;
+		} else {
+			return {"option":opt.option, "votes":0};
+		}
+	});
+	return function(dispatch) {
+		axios.post(UPDATE_POLL_URI, poll) //TODO replace URI with actual backend URI
+		.then(response => {
+			dispatch({ type:UPDATE_POLL })
+			browserHistory.push('/mypolls');
+		})
+		.catch(() => {
+				//TODO
+		})
+	}
 }

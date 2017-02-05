@@ -6,4 +6,4 @@ export const GET_IP_ADDRESS = `${VOTING_APP_SERVER__URL}/get-ip-address`;
 export const DELETE_POLL_URI = `${VOTING_APP_SERVER__URL}/delete/`;
 export const CREATE_POLL_URI = `${VOTING_APP_SERVER__URL}/create`;
 export const UPDATE_POLL_URI = `${VOTING_APP_SERVER__URL}/updatepoll`;
-export const GET_POLL_DATA_BY_POLL_ID = "https://api.myjson.com/bins/bwged";
+export const GET_POLL_DATA_BY_POLL_ID = `${VOTING_APP_SERVER__URL}/get/poll/`;
