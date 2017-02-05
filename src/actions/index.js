@@ -60,8 +60,9 @@ export function getAllPolls() {
 } 
 
 export function getUserRelatedPolls() {
+	const userId = JSON.parse(localStorage.getItem(TOKEN_KEY))["user_id"];
 	return function(dispatch) {
-		axios.get(GET_USER_RELATED_POLLS_URI) //TODO replace URI with actual backend URI
+		axios.get(GET_USER_RELATED_POLLS_URI + userId)
 			.then(response => {
 				dispatch({ type:POLLS_DATA, payload:response.data});
 			})
