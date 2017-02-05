@@ -139,17 +139,15 @@ export function getUserId() {
 }
 
 export function deletePoll(pollId) {	
-	// TODO :: Should be like below 
-	// return function(dispatch) {
-	// 	axios.delete(DELETE_POLL_URI) //TODO replace URI with actual backend URI
-	// 		.then(response => {
-	// 			dispatch({ type:DELETE_POLL, payload:pollId});
-	// 		})
-	// 		.catch(() => {
-	// 			//TODO
-	// 		})
-	// }
-	return { type:DELETE_POLL, payload:pollId} ;
+	return function(dispatch) {
+		axios.delete(DELETE_POLL_URI + pollId)
+			.then(response => {
+				dispatch({ type:DELETE_POLL, payload:pollId});
+			})
+			.catch(() => {
+				//TODO
+			})
+	}
 }
 
 export function getPollDataByPollId(pollId) {
