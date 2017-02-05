@@ -20,7 +20,8 @@ class Polls extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			selectedOptions : []
+			selectedOptions : [],
+			bodyHeaderTest : ""
 		};
 	}
 
@@ -29,10 +30,13 @@ class Polls extends Component {
 		const { pollId } = this.props;
 		if(router.isActive('/mypolls')) {
 			this.props.getUserRelatedPolls();
+			this.setState({"bodyHeaderTest":"My Polls"})
 		} else if(router.isActive('/poll/' + pollId)){
 			this.props.getPollDataByPollId(pollId);
+			this.setState({"bodyHeaderTest":"Take Your Poll"})
 		} else {
 			this.props.getAllPolls();
+			this.setState({"bodyHeaderTest":"Select A Poll To See The Results And Vote"})
 		}
 
 		if(this.props.IS_AUTHORIZED) {
@@ -118,7 +122,10 @@ class Polls extends Component {
 			return (
 				<div id={"ellipse_" + poll._id} className="panel-collapse collapse editShareDelete">
 					<button onClick={() => this.editPoll(poll._id)} className="edit btn btn-default">Edit</button>
-					<a href= { "http://twitter.com/home/?status="+ VOTING_APP_CLIENT_URL +"/"+ poll._id } target="_blank"><button className="share btn btn-default">Share</button></a>
+					<a href= { "http://twitter.com/home/?status="+ poll.question +". Take Your Poll @ " + VOTING_APP_CLIENT_URL +"/"+ poll._id } 
+					   target="_blank">
+					   <button className="share btn btn-default">Share</button>
+					</a>
 					<button onClick={() => this.deletePoll(poll)} className="delete btn btn-default">Delete</button>
 				</div>
 			);
@@ -228,7 +235,7 @@ class Polls extends Component {
 		return (
 			<div>
 				<p className="bodyHeader"> 
-					Select A Poll To See The Results And Vote
+					{this.state.bodyHeaderTest}
 				</p>
 				<div>
 					{this.loadPollData()}

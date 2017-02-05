@@ -39,11 +39,12 @@
 
 .bodyHeader {
   font-family: Myriad Pro;
-  font-size: 28px;
+  font-size: 24px;
   color: #231F20;
   color: #231f20;
   text-align: center;
-  margin-top: 25px; }
+  margin-top: 25px;
+  margin-bottom: 25px; }
 
 .radioLabel{
   display: inline-block;
