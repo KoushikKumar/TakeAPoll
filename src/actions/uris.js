@@ -1,5 +1,5 @@
-export const VOTING_APP_SERVER__URL = "https://voting-app-server-koushikkumarv.c9users.io";
-export const VOTING_APP_CLIENT_URL = "localhost:8080/poll";
+export const VOTING_APP_SERVER__URL = "https://takeapoll-kkv.herokuapp.com";
+export const VOTING_APP_CLIENT_URL = "https://takeapoll-client-kkv.herokuapp.com/poll";
 export const GET_ALL_POLLS_URI = `${VOTING_APP_SERVER__URL}/getall`;
 export const GET_USER_RELATED_POLLS_URI = `${VOTING_APP_SERVER__URL}/getall/user/`;
 export const GET_IP_ADDRESS = `${VOTING_APP_SERVER__URL}/get-ip-address`;
